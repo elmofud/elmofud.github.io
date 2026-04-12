@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tracey L. Garber | Full-Stack Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0e0c12;
+      --surface: #16121f;
+      --surface2: #1e1828;
+      --purple: #9b59f5;
+      --purple-dim: #6c3ab5;
+      --purple-glow: rgba(155, 89, 245, 0.15);
+      --purple-soft: rgba(155, 89, 245, 0.08);
+      --text: #e8e0f5;
+      --muted: #8a7fa0;
+      --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: var(--grain);
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.6;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 12, 18, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(155, 89, 245, 0.1);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--purple); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(155, 89, 245, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(108, 58, 181, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(155,89,245,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,89,245,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 800px;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--purple);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--purple);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    h1 span {
+      color: var(--purple);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #b070ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(155, 89, 245, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--purple);
+      border: 1px solid var(--purple-dim);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--purple);
+      background: var(--purple-soft);
+      transform: translateY(-2px);
+    }
+
+    /* Floating icons */
+    .hero-icons {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      opacity: 0.4;
+    }
+
+    .hero-icon {
+      font-size: 2.5rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-icon:nth-child(2) { animation-delay: 1.3s; }
+    .hero-icon:nth-child(3) { animation-delay: 2.6s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Sections */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--purple);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--purple);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid rgba(155, 89, 245, 0.12);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(155, 89, 245, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(155,89,245,0.1);
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--purple);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .project-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--purple);
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
+      background: var(--purple-soft);
+      color: var(--purple);
+      border: 1px solid rgba(155,89,245,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.3s;
+    }
+
+    .project-link:hover { color: var(--purple); }
+
+    /* Skills */
+    .skills-section { background: var(--surface); border-radius: 12px; padding: 3rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-item {
+      background: var(--bg);
+      border: 1px solid rgba(155,89,245,0.1);
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      transition: all 0.3s;
+      letter-spacing: 0.03em;
+    }
+
+    .skill-item:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+      background: var(--purple-soft);
+      transform: translateY(-2px);
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+      font-size: 0.98rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .about-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .aside-card {
+      background: var(--surface);
+      border: 1px solid rgba(155,89,245,0.12);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .aside-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+    .aside-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .aside-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* Metaphor section */
+    .metaphor-box {
+      background: var(--surface2);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 8px 8px 0;
+      padding: 2rem 2.5rem;
+      margin-top: 3rem;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.9;
+      position: relative;
+    }
+
+    .metaphor-box::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--purple);
+      opacity: 0.2;
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      line-height: 1;
+    }
+
+    /* Contact */
+    .contact-section {
+      text-align: center;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 4rem;
+      border: 1px solid rgba(155,89,245,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(155,89,245,0.08) 0%, transparent 70%);
+    }
+
+    .contact-section h2 { margin-bottom: 1rem; }
+
+    .contact-section p {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(155,89,245,0.1);
+      margin: 0 3rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 3rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      opacity: 0.6;
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s forwards;
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.25s; }
+    .fade-in:nth-child(3) { animation-delay: 0.4s; }
+    .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 5rem 1.5rem 3rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-icons { display: none; }
+      .contact-section { padding: 2.5rem 1.5rem; }
+      .skills-section { padding: 2rem 1.5rem; }
+      .divider { margin: 0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-logo">TLG</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag fade-in">Available for Remote Work</div>
+      <h1 class="fade-in">
+        Tracey L. Garber
+        <span>Full-Stack Developer</span>
+      </h1>
+      <p class="hero-sub fade-in">
+        From the factory floor to the digital frontier — I build precise, 
+        purposeful web applications with the same craftsmanship I bring 
+        to the woodturning lathe and the sheep pasture.
+      </p>
+      <div class="hero-cta fade-in">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-icons">
+      <div class="hero-icon">💻</div>
+      <div class="hero-icon">🪵</div>
+      <div class="hero-icon">🐑</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-label">Featured Work</div>
+    <h2>Things I've Built</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-number">01 / Full-Stack</div>
+        <div class="project-title">WTWR — What To Wear</div>
+        <div class="project-type">MERN Stack Application</div>
+        <p class="project-desc">
+          A full-stack weather app that uses your location to recommend appropriate clothing. 
+          Features JWT authentication, real-time weather data, and cloud deployment with SSL encryption.
+        </p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">JWT</span>
+          <span class="tag">Google Cloud</span>
+        </div>
+        <div class="project-links">
+          <a href="https://elmofudfashion.crabdance.com" target="_blank" class="project-link">⬡ Live Site</a>
+          <a href="https://github.com/elmofud/se_project_react" target="_blank" class="project-link">⬡ GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-number">02 / Front-End</div>
+        <div class="project-title">Spots</div>
+        <div class="project-type">Social Media Platform</div>
+        <p class="project-desc">
+          A responsive social media platform with profile management, avatar customization, 
+          image posting with captions, and like functionality. Built with real-time validation 
+          and REST API integration.
+        </p>
+        <div class="project-tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Figma</span>
+        </div>
+        <div class="project-links">
+          <a href="https://youtu.be/9bpjfMC3-vM" target="_blank" class="project-link">⬡ Demo Video</a>
+          <a href="https://github.com/elmofud/se_project_spots" target="_blank" class="project-link">⬡ GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-number">03 / Front-End</div>
+        <div class="project-title">Todo App</div>
+        <div class="project-type">Task Management Application</div>
+        <p class="project-desc">
+          A task management app with due date assignment and visual completion tracking. 
+          Restructured using OOP principles with separate classes for features, 
+          data handling, and validation.
+        </p>
+        <div class="project-tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">OOP</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+        </div>
+        <div class="project-links">
+          <a href="https://youtu.be/2xQOMwqI-6I" target="_blank" class="project-link">⬡ Demo Video</a>
+          <a href="https://github.com/elmofud/se_project_todo-app" target="_blank" class="project-link">⬡ GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- Skills -->
+  <section id="skills" style="max-width:1100px;margin:0 auto;">
+    <div class="section-label">Technical Stack</div>
+    <h2>Tools of the Trade</h2>
+    <div class="skills-section">
+      <div class="skills-grid">
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">React.js</div>
+        <div class="skill-item">Node.js</div>
+        <div class="skill-item">Express.js</div>
+        <div class="skill-item">MongoDB</div>
+        <div class="skill-item">HTML5</div>
+        <div class="skill-item">CSS3</div>
+        <div class="skill-item">Git & GitHub</div>
+        <div class="skill-item">Figma</div>
+        <div class="skill-item">REST APIs</div>
+        <div class="skill-item">JWT Auth</div>
+        <div class="skill-item">Google Cloud</div>
+        <div class="skill-item">Responsive Design</div>
+        <div class="skill-item">VS Code</div>
+        <div class="skill-item">Postman</div>
+        <div class="skill-item">MERN Stack</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="margin-top:4rem;"/>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-label">Background</div>
+    <h2>The Craftsman Behind the Code</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Full-Stack Software Engineering graduate of TripleTen</strong> making 
+          a deliberate transition from 30+ years in precision manufacturing at Stellantis 
+          to the world of web development. My background as an Instrument Repairman in 
+          high-stakes heat treatment operations gave me something most junior developers 
+          don't have — <strong>the instinct that failure is not an option.</strong>
+        </p>
+        <p>
+          Whether I'm monitoring a 7-furnace production line or debugging a React component, 
+          I bring the same systematic thinking, meticulous attention to detail, and 
+          relentless problem-solving mindset to the task at hand.
+        </p>
+        <p>
+          I'm actively seeking <strong>remote front-end development opportunities</strong> where 
+          I can contribute precision and passion to a collaborative team — while continuing 
+          to grow as a developer.
+        </p>
+
+        <div class="metaphor-box">
+          Just as I select well-dried wood before turning on my lathe, I start every project 
+          with solid Figma designs. HTML is my sharp chisel — creating the rough framework. 
+          CSS is my sandpaper — carefully refining every detail. And JavaScript is my beeswax, 
+          adding those finishing touches that bring everything to life.
+        </div>
+      </div>
+
+      <div class="about-aside">
+        <div class="aside-card">
+          <div class="aside-icon">🏭</div>
+          <div>
+            <div class="aside-title">Manufacturing Veteran</div>
+            <div class="aside-desc">31+ years at Stellantis maintaining complex heat treatment systems. Precision and reliability are in my DNA.</div>
+          </div>
+        </div>
+        <div class="aside-card">
+          <div class="aside-icon">🪵</div>
+          <div>
+            <div class="aside-title">Woodturner</div>
+            <div class="aside-desc">I craft wooden containers on my lathe. The patience and precision required maps perfectly to clean, thoughtful code.</div>
+          </div>
+        </div>
+        <div class="aside-card">
+          <div class="aside-icon">🐑</div>
+          <div>
+            <div class="aside-title">Sheep Farmer</div>
+            <div class="aside-desc">Managing a flock teaches you about systems, patience, and the satisfaction of caring for something that grows under your watch.</div>
+          </div>
+        </div>
+        <div class="aside-card">
+          <div class="aside-icon">📍</div>
+          <div>
+            <div class="aside-title">Peru, Indiana</div>
+            <div class="aside-desc">Based in Indiana. Open to fully remote opportunities anywhere.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-section">
+      <div class="section-label" style="justify-content:center;">Let's Connect</div>
+      <h2>Ready to Build Something?</h2>
+      <p>I'm actively looking for remote front-end opportunities. Let's talk!</p>
+      <div class="contact-links">
+        <a href="mailto:traceylg43@gmail.com" class="btn btn-primary">✉ Email Me</a>
+        <a href="https://github.com/elmofud" target="_blank" class="btn btn-outline">⬡ GitHub</a>
+        <a href="https://linkedin.com/in/tlgarber" target="_blank" class="btn btn-outline">in LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built with HTML, CSS & JavaScript by Tracey L. Garber &nbsp;·&nbsp; Peru, Indiana &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+</body>
+</html>
