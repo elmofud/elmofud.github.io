@@ -629,3 +629,8 @@ footer {
   color: var(--purple);
   border-bottom: 1px solid var(--purple);
 }
+
+a.nav-log {
+  text-decoration: none;
+  color: var(--purple);
+}
