@@ -630,7 +630,8 @@ footer {
   border-bottom: 1px solid var(--purple);
 }
 
-a.nav-log {
+a.nav-logo {
   text-decoration: none;
   color: var(--purple);
+  cursor: pointer;
 }
