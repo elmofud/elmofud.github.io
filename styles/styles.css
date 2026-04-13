@@ -1,0 +1,328 @@
+/* ============================================
+   TRACEY L. GARBER | PORTFOLIO STYLES
+   ============================================
+   
+   TABLE OF CONTENTS
+   -----------------
+   1. Variables & Reset
+   2. Base Styles
+   3. Layout - Sections & Footer
+   4. Projects Section (grid)
+   5. Skills Section (grid)
+   6. About Section
+   7. Contact Section
+   8. Utilities (Dividers)
+   9. Responsive / Media Queries
+
+   Other files:
+   - nav.css        → Navigation
+   - hero.css       → Hero section
+   - components.css → Buttons, tags, cards
+   - animation.css  → Keyframes & animations
+   
+   ============================================ */
+
+
+/* ============================================
+   1. VARIABLES & RESET
+   ============================================ */
+
+:root {
+  /* Colors */
+  --bg: #0e0c12;
+  --surface: #16121f;
+  --surface2: #1e1828;
+  --purple: #9b59f5;
+  --purple-dim: #6c3ab5;
+  --purple-glow: rgba(155, 89, 245, 0.15);
+  --purple-soft: rgba(155, 89, 245, 0.08);
+  --text: #e8e0f5;
+  --muted: #8a7fa0;
+
+  /* Effects */
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ============================================
+   2. BASE STYLES
+   ============================================ */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--grain);
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.6;
+}
+
+h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+h1 span {
+  color: var(--purple);
+  display: block;
+}
+
+h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 3rem;
+  line-height: 1.2;
+}
+
+
+/* ============================================
+   3. LAYOUT - SECTIONS & FOOTER
+   ============================================ */
+
+section {
+  padding: 6rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+#skills {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--purple);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.section-label::before {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--purple);
+}
+
+#contact .section-label {
+  justify-content: center;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 3rem;
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+
+/* ============================================
+   4. PROJECTS SECTION (Grid Layout)
+   ============================================ */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+
+/* ============================================
+   5. SKILLS SECTION (Grid Layout)
+   ============================================ */
+
+.skills-section {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 3rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+
+/* ============================================
+   6. ABOUT SECTION
+   ============================================ */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+  line-height: 1.9;
+  font-size: 0.98rem;
+}
+
+.about-text p strong {
+  color: var(--text);
+}
+
+.about-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Metaphor box */
+.metaphor-box {
+  background: var(--surface2);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 8px 8px 0;
+  padding: 2rem 2.5rem;
+  margin-top: 3rem;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.9;
+  position: relative;
+}
+
+.metaphor-box::before {
+  content: '"';
+  font-family: "Playfair Display", serif;
+  font-size: 5rem;
+  color: var(--purple);
+  opacity: 0.2;
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+  line-height: 1;
+}
+
+
+/* ============================================
+   7. CONTACT SECTION
+   ============================================ */
+
+.contact-section {
+  text-align: center;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 4rem;
+  border: 1px solid rgba(155, 89, 245, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 60% at 50% 100%,
+    rgba(155, 89, 245, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+.contact-section h2 {
+  margin-bottom: 1rem;
+}
+
+.contact-section p {
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+
+/* ============================================
+   8. UTILITIES
+   ============================================ */
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(155, 89, 245, 0.1);
+  margin: 0 3rem;
+}
+
+#skills + .divider {
+  margin-top: 4rem;
+}
+
+
+/* ============================================
+   9. RESPONSIVE / MEDIA QUERIES
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Sections */
+  section {
+    padding: 4rem 1.5rem;
+  }
+
+  /* About */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Contact */
+  .contact-section {
+    padding: 2.5rem 1.5rem;
+  }
+
+  /* Skills */
+  .skills-section {
+    padding: 2rem 1.5rem;
+  }
+
+  /* Utilities */
+  .divider {
+    margin: 0 1.5rem;
+  }
+}
